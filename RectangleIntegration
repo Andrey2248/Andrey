@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+double func(double x){
+    return x * x;
+}
+
+int main(){
+    int stepCount;
+    int i;
+    double bottomEdge, topEdge;
+    double integral = 0.0;
+
+    cout << "Vvedite bottomEdge : " << endl;
+    cin >> bottomEdge;
+
+    cout << "Vvedite topEdge : " << endl;
+    cin >> topEdge;
+
+    cout << "Vvedite stepCount : " << endl;
+    cin >> stepCount;
+
+    double step = double((topEdge - bottomEdge) / stepCount);
+    
+    for ( i = 0; i <= stepCount - 1; i++)
+        integral = integral + step * func(bottomEdge + step *(i));
+
+    return integral;
+}
