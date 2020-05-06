@@ -1,0 +1,30 @@
+#include <iostream>
+#include <math.h>
+
+using namespace std;
+
+double func(double x){
+    return x * x;
+}
+
+int main(){
+    double bottomEdge = 0.0;
+    double topEdge = 3.0;
+    int stepCount = 100;
+    int i=0;
+    double s=0.0;
+
+    double h=(topEdge-bottomEdge)/stepCount;
+
+    double a=bottomEdge,b;
+
+    for(i = 0;i < (stepCount - 1); ++i)
+        {
+    b = a + h;
+    s += h * 0.5 * ((* func)(b) + (* func)(a));
+    a = b;
+    }
+
+return s;
+    
+}
