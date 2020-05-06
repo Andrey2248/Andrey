@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+double func(double x){
+    return x * x;
+}
+double AdaptiveIntegration(double (&integration)(double (&func)(double), double, double, int), double (&func)(double), double bottomEdge, double topEdge, double accuracy)
+{
+    int a = 2;
+    int b = 4;
+    double A = integration(func, bottomEdge, topEdge, 2);
+    double B = integration(func, bottomEdge, topEdge, 4);
+    while (fabs(B-A)> accuracy/12){
+        a*=2;
+        b*=2;
+        A = integration(func, bottomEdge, topEdge, a);
+        B = integration(func, bottomEdge, topEdge, b);
+    }
+    return B;
+}
+int main(){
+    double A;
+    A = AdaptiveIntegration(func,-10.0,10.0,0.0001);
+    cout << A << endl;
+}
+
