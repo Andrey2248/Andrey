@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+double func(double x){
+    return x * x;
+}
+void drawSymbolPlot(double (&func)(double), double bottomEdge, double topEdge, int stringCount){
+    double h = (topEdge - bottomEdge)/stringCount;
+    double a;
+    int b;
+    double max = func(bottomEdge);
+    double min = func(bottomEdge);
+    for (int i = 1; i <= stringCount; i++ ){
+        if (func(bottomEdge + i * h > max)){
+            max = func(bottomEdge+i*h);
+        }
+        if (func(bottomEdge + i * h < min)){
+            min = func(bottomEdge+i*h);
+        }
+    }
+    min = int(min);
+    max = int(max);
+    for (int i = 0; i <= stringCount; i++){
+        a = func(bottomEdge + i * h);
+        if (a > 0) {b = trunc(a);}
+        else {b = int(a);}
+        b = int(b - min);
+        for (int r = 0; r < b; r++){
+            cout << " ";
+
+        }
+        cout << "*" << endl;
+    }
+}
+int main(){
+    drawSymbolPlot(func,-3.5,3.5,20);
+}
