@@ -1,0 +1,103 @@
+#include<iostream>
+using namespace std;
+int main() {
+    long long n;
+    cin >> n;
+    if (n < 1) {
+        cout << ".";
+        return 0;
+    }
+    long long** a = new long long*[n];
+    for (long long i = 0; i < n; i++) {
+        a[i] = new long long[n];
+    }
+    long long** b = new long long* [n];
+    for (long long i = 0; i < n; i++) {
+        b[i] = new long long[n];
+    }
+    for (long long j = 0; j < n; j++) {
+        for (long long i = 0; i < n; i++) {
+            cin>>a[i][j];
+        }
+    }
+    if (n == 1) {
+        cout << a[0][0];
+        return 0;
+    }
+    long long max = 1;
+    for (long long i = n; i > 0; i--) {
+        max = max * i;
+    }
+    long long*** mat = new long long** [max];
+    for (long long i = 0; i < max; i++) {
+        mat[i] = new long long*[n];
+        for (long long j = 0; j < n; j++) {
+            mat[i][j] = new long long[n];
+        }
+    }
+    long long* raz = new long long [max];
+    long long* mnop = new long long[max];
+
+    for (long long r = 0; r < n; r++) {
+        for (long long t = 0; t < n; t++) {
+            mat[0][t][r] = a[t][r];
+        }
+    }
+    raz[0] = n;
+    mnop[0] = 1;
+
+    bool flag = true;
+    long long k = 1, N1 = 0, N2 = 0;
+    while (flag == true) {
+        for (long long o = 0; o < max; o++) {
+            if (a != 0) {
+                for (long long r = 0; r < raz[o]; r++) {
+                    for (long long t = 0; t < raz[o]; t++) {
+                        a[t][r] = mat[o][t][r];
+                    }
+                }
+            }
+            if (raz[o] == 2) {
+                N1 = o;
+                N2 = o + k - 1;
+                flag = false;
+                break;
+            }
+            for (long long q = 0; q < raz[o] ; q++) {
+                for (long long i = 0; i < q; i++) {
+                    for (long long j = 0; j < raz[o]-1; j++) {
+                        b[i][j] = a[i][j + 1];
+
+                    }
+                }
+                for (long long i = q; i < raz[o]-1; i++) {
+                    for (long long j = 0; j < raz[o]-1; j++) {
+                        b[i][j] = a[i + 1][j + 1];
+
+                    }
+                }
+                for (long long r = 0; r < raz[o] - 1; r++) {
+                    for (long long t = 0; t < raz[o] - 1; t++) {
+                        mat[o + k][t][r] = b[t][r];
+                    }
+                }
+                raz[o + k] = raz[o] - 1;
+                if  ( (q + 2) % 2 == 0) {
+                    mnop[o + k] = mnop[o] * a[q][0];
+                }
+                else {
+                    mnop[o + k] = mnop[o] *(-1)*a[q][0];
+                }
+                k++;
+            }
+
+
+        }
+    }
+    long long det = 0;
+    for (; N1 <= N2; N1++) {
+        det = det + mnop[N1] * (mat[N1][0][0] * mat[N1][1][1] - mat[N1][1][0] * mat[N1][0][1]);
+    }
+    cout << det;
+    return 0;
+}
